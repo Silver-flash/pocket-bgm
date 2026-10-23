@@ -34,6 +34,8 @@ run_static_checks() {
     "${test_dir}/test_ui_pixel_math"
     "${CC:-cc}" -std=c11 -Wall -Wextra -Werror -Imain tests/test_bgm_model.c main/bgm_model.c -o "${test_dir}/test_bgm_model"
     "${test_dir}/test_bgm_model"
+    "${CC:-cc}" -std=c11 -Wall -Wextra -Werror -Imain -Itests/bgm_settings_stubs -Itests/audio_stubs tests/test_bgm_settings.c main/bgm_settings.c main/bgm_model.c -o "${test_dir}/test_bgm_settings"
+    "${test_dir}/test_bgm_settings"
     "${CC:-cc}" -std=c11 -Wall -Wextra -Werror -Imain tests/test_bgm_gain.c main/bgm_gain.c -o "${test_dir}/test_bgm_gain"
     "${test_dir}/test_bgm_gain"
     "${CC:-cc}" -std=c11 -Wall -Wextra -Werror -Imain -Icomponents/bsp/include -Itests/audio_stubs tests/test_bgm_input.c main/bgm_model.c -o "${test_dir}/test_bgm_input"

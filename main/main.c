@@ -8,6 +8,7 @@
 #include "bgm_tracks.h"
 #include "bgm_decoder.h"
 #include "bgm_gain.h"
+#include "bgm_settings.h"
 #include "bgm_input.h"
 #include "key_guard.h"
 #include "esp_log.h"
@@ -31,7 +32,7 @@ static key_guard_t s_key_guard;
 static bgm_model_t s_state;
 static lv_obj_t *s_title, *s_status, *s_now, *s_meta, *s_hint, *s_battery, *s_index, *s_volume;
 static lv_obj_t *s_progress, *s_bars[9];
-static bool s_audio_ready, s_codec_awake;
+static bool s_audio_ready, s_codec_awake, s_settings_failed;
 static int16_t s_pcm[CHUNK];
 
 typedef struct { bsp_btn_t key; bsp_btn_ev_t event; } input_t;
@@ -117,13 +118,15 @@ static void render(int battery, const char *error) {
     lv_label_set_text(s_now, "");
     if (s_state.settings) {
         lv_label_set_text(s_title, "播放设置");
-        lv_label_set_text_fmt(s_status, "音量 %u%%", s_state.volume);
+        if (s_settings_failed) lv_label_set_text(s_status, "设置失败 请重试");
+        else lv_label_set_text_fmt(s_status, "音量 %u%%", s_state.volume);
         lv_label_set_text(s_volume, "");
         lv_label_set_text(s_now, "上下调音量 中键切循环");
         lv_label_set_text(s_hint, "长按中键返回");
     } else {
         lv_label_set_text(s_title, selected->title);
-        if (error) lv_label_set_text(s_status, error);
+        if (s_settings_failed) lv_label_set_text(s_status, "设置失败 请重试");
+        else if (error) lv_label_set_text(s_status, error);
         else {
             unsigned elapsed = s_state.playing ? s_state.cursor / RATE : 0;
             unsigned duration = (s_state.playing ? active : selected)->samples / RATE;
@@ -165,6 +168,7 @@ static void player_task(void *arg) {
         if (xQueueReceive(s_events, &in, s_state.playing ? 0 : pdMS_TO_TICKS(50)) == pdTRUE) {
             last_input = esp_timer_get_time();
             if (dimmed) { bsp_display_backlight(70); dimmed = false; }
+            unsigned previous_volume = s_state.volume;
             if (in.event == BSP_BTN_LONG) {
                 if (in.key == BSP_BTN_OK) bgm_model_action(&s_state, BGM_SETTINGS);
             } else {
@@ -172,6 +176,13 @@ static void player_task(void *arg) {
                 bgm_model_action(&s_state, action);
                 // The driver emits DOUBLE instead of two CLICKs. Treat OK as one intent.
                 if (in.event == BSP_BTN_DOUBLE && in.key != BSP_BTN_OK) bgm_model_action(&s_state, action);
+            }
+            // Commit changed volume before applying it, so a completed adjustment
+            // survives power-off. No writes for navigation or limit presses.
+            if (s_state.volume != previous_volume) {
+                esp_err_t saved = bgm_settings_save(s_state.volume);
+                s_settings_failed = saved != ESP_OK;
+                if (s_settings_failed) ESP_LOGE(TAG, "Volume save failed: %s", esp_err_to_name(saved));
             }
             dirty = true;
         }
@@ -232,10 +243,13 @@ static void player_task(void *arg) {
     }
 }
 void app_main(void) {
-    ESP_LOGI(TAG, "Pocket BGM 1.3.0: offline manual playback");
+    ESP_LOGI(TAG, "Pocket BGM 1.4.0: offline manual playback");
     if (bsp_display_init() != ESP_OK || !bsp_lvgl_init()) return;
     bsp_display_backlight(70);
     bgm_model_init(&s_state, bgm_track_count);
+    esp_err_t settings_result = bgm_settings_load(&s_state.volume);
+    s_settings_failed = settings_result != ESP_OK;
+    if (s_settings_failed) ESP_LOGE(TAG, "Volume restore failed: %s", esp_err_to_name(settings_result));
     s_events = xQueueCreate(16, sizeof(input_t));
     if (!s_events) { ESP_LOGE(TAG, "Input queue allocation failed"); return; }
     if (!bsp_lvgl_lock(1000)) return;

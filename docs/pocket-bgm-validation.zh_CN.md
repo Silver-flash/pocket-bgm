@@ -1,5 +1,20 @@
 **简体中文** · [English](pocket-bgm-validation.md)
 
+# 当前 1.4：音量记忆
+
+构建（Build）：PASS，完整门禁及固件归档校验通过。
+主机测试（Host tests）：PASS，覆盖所有音量档位的模拟重启恢复、保持停止播放、记录缺失或损坏，以及初始化/读取/写入/提交失败。
+实机测试（Device tests）：1.4 未运行。
+未验证：真实断电再开机的保持效果、声音及屏幕表现。未进行发声测试。
+音量变化后由播放任务立即提交；正常关机保留，完整刷机可能重置存储。本次只保存音量。
+
+- Full image SHA-256: `254fafbc78aed3c7f976745019e0a9437eb958b992a2fa598009791a929844e1`
+- ELF SHA-256: `0fb5e4bbf1d9d037bfcfc13893fe8866a7bd7c7da08fbdad30362647f096967d`
+- Full image bytes: 921360
+- Archive: `build/firmware/254fafbc78aed3c7f976745019e0a9437eb958b992a2fa598009791a929844e1/`
+
+## 历史验证记录
+
 # 公开版验证
 
 构建：PASS。主机测试：PASS。实机测试：公开音频资源包未运行。
@@ -13,3 +28,5 @@
 - ELF SHA-256: `9176c96c8f456768ff200892043d52d39c60f9abee75c39d98b769f81f28a2af`
 - Image: 898,272 bytes; audio: 146,688 bytes / 18 seconds.
 - Archive: `build/firmware/64e1b287093e716b087b965106849951b795a01742252d608debb317670d66ee/`
+
+11 段曲库的 1.4 版本已获授权刷入，写入哈希通过；启动确认 1.4.0、匹配 ELF 前缀 `fc857efba`、Ready、219,000 字节空闲堆及音频芯片低功耗校验。未触发播放、注入按键、调节音量或测试真实关机记忆。3 段示例版固件本身未刷入。

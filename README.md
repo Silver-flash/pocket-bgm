@@ -10,7 +10,7 @@ Maintained by [Silver-flash](https://github.com/Silver-flash).
 
 - Physical upper / middle / lower buttons: previous / play-stop / next.
 - Hold middle to open settings. Upper/lower adjust volume; middle toggles looping.
-- Volume: 0–100% in 10-point steps, then 200/300/400/500%. Default 30%.
+- Volume: 0–100% in 10-point steps, then 200/300/400/500%. Remembers the last volume after power-off; first use defaults to 30%.
 - Above 100%, digital gain with a soft limiter; 500% is not five times perceived loudness.
 - Silent startup, scrolling titles, separated mode/volume, and dimming after 30 seconds.
 - Local studio: upload, preview, delete, restore examples, and build firmware.
