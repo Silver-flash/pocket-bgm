@@ -55,3 +55,16 @@ BSP 在 `components/bsp/src/bsp_battery.c` 中嵌入这 80 字节，主机检查
 `fa7365671093ef449c5bdcfb4adb279e3d275f888109f50b6b2f21e9b96220d5`。
 这是电量计参数，不是充电配置，也不能通用于所有 500 mAh 电芯；详见
 [硬件指南](../docs/hardware-design/AI_HARDWARE_DEVELOPMENT_GUIDE.zh_CN.md#9-cw2017-电池计)。
+
+## 随身 BGM 音频与字体
+
+`music/builtin/` 内置 3 段各 6 秒的原创合成示例，由
+`tools/generate_bgm_examples.py` 生成，按 MIT 许可提供。
+不包含私人曲库或第三方音乐录音。编码为 16 kHz 单声道 IMA-ADPCM，
+每块 256 字节、505 个采样。
+用户上传保存在被 Git 忽略的 `local-audio/` 中。未经再分发授权，
+请勿公开包含上传音频的资源包或固件。
+
+NotoSansSC-Regular.otf 来自 [Noto CJK](https://github.com/notofonts/noto-cjk/tree/main/Sans/SubsetOTF/SC)，
+遵循 SIL OFL（`fonts/bgm/OFL.txt`）。使用 lv_font_conv 1.5.3 生成
+16 像素、4bpp 无压缩字库，设备所有文字显式使用此字体。

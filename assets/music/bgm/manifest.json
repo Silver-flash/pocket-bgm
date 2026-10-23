@@ -1,0 +1,32 @@
+[
+  {
+    "title": "NEON",
+    "source": "Original procedural synthesis (MIT)",
+    "file": "track_00.adpcm",
+    "samples": 96000,
+    "seconds": 6.0,
+    "bytes": 48896,
+    "codec": "IMA_ADPCM",
+    "block_size": 256
+  },
+  {
+    "title": "DRIFT",
+    "source": "Original procedural synthesis (MIT)",
+    "file": "track_01.adpcm",
+    "samples": 96000,
+    "seconds": 6.0,
+    "bytes": 48896,
+    "codec": "IMA_ADPCM",
+    "block_size": 256
+  },
+  {
+    "title": "VICTORY",
+    "source": "Original procedural synthesis (MIT)",
+    "file": "track_02.adpcm",
+    "samples": 96000,
+    "seconds": 6.0,
+    "bytes": 48896,
+    "codec": "IMA_ADPCM",
+    "block_size": 256
+  }
+]

@@ -11,3 +11,14 @@ managed_components/
 /.agents/skills/passport-build
 /.agents/skills/passport-device-test
 /.agents/skills/passport-debug
+local-audio/
+__pycache__/
+
+# Private uploads, environment secrets, logs and platform metadata
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+*.pem
+*.key

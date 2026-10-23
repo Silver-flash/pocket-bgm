@@ -1,0 +1,29 @@
+[
+  {
+    "id": "example-01",
+    "name": "NEON",
+    "title": "NEON",
+    "source": "Original procedural synthesis (MIT)",
+    "path": "assets/music/builtin/example_01.wav",
+    "seconds": 6,
+    "builtin": true
+  },
+  {
+    "id": "example-02",
+    "name": "DRIFT",
+    "title": "DRIFT",
+    "source": "Original procedural synthesis (MIT)",
+    "path": "assets/music/builtin/example_02.wav",
+    "seconds": 6,
+    "builtin": true
+  },
+  {
+    "id": "example-03",
+    "name": "VICTORY",
+    "title": "VICTORY",
+    "source": "Original procedural synthesis (MIT)",
+    "path": "assets/music/builtin/example_03.wav",
+    "seconds": 6,
+    "builtin": true
+  }
+]
