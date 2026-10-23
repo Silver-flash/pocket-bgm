@@ -59,3 +59,5 @@ and attribution. Code and procedural examples: [MIT](LICENSE).
 Noto font: [SIL OFL](assets/fonts/bgm/OFL.txt). Uploaded audio retains its own rights.
 The project's physical middle/lower key mapping follows the tested unit's user feedback;
 other hardware revisions may need adjustment.
+
+The community submission uses a separate creator-selected audio pack (eleven 45-second clips). Those recordings are not included in this GitHub repository or its MIT license. The application code is shared; rebuilding this repository uses the three original synthesized examples.
